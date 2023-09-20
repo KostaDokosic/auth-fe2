@@ -1,14 +1,16 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import UserContext from "../context/UserContext";
-import AuthService from "../services/auth.service";
-import "../styles/auth.styles.css";
-import Storage from "../utils/Storage";
+import UserContext from "../../context/UserContext";
+import AuthService from "../../services/auth.service";
+import "../../styles/auth.styles.css";
+import Storage from "../../utils/Storage";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [data, setData] = useState({
+    name: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
 
   const [error, setError] = useState("");
@@ -22,7 +24,7 @@ const LoginPage = () => {
     try {
       setIsLoading(true);
       setError("");
-      const { data: userData } = await AuthService.login(data);
+      const { data: userData } = await AuthService.register(data);
       setUser(userData.user);
       Storage.setString("token", userData.token);
       navigation("/");
@@ -49,7 +51,17 @@ const LoginPage = () => {
           />
           <label>Email address</label>
         </div>
-
+        <div className="form-floating">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Username"
+            required
+            value={data.name}
+            onChange={(e) => setData({ ...data, name: e.target.value })}
+          />
+          <label>Username</label>
+        </div>
         <div className="form-floating">
           <input
             type="password"
@@ -61,13 +73,26 @@ const LoginPage = () => {
           />
           <label>Password</label>
         </div>
+        <div className="form-floating">
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Confirm Password"
+            required
+            value={data.password_confirmation}
+            onChange={(e) =>
+              setData({ ...data, password_confirmation: e.target.value })
+            }
+          />
+          <label>Confirm Password</label>
+        </div>
 
         <button
           className="btn btn-primary w-100 py-2"
           type="submit"
           disabled={isLoading}
         >
-          Login
+          Register
         </button>
         {error && <div className="alert alert-danger mt-5">{error}</div>}
         <p className="mt-5 mb-3 text-body-secondary">
@@ -78,4 +103,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

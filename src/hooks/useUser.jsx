@@ -15,6 +15,7 @@ const useUser = () => {
     } finally {
       setUser(undefined);
       Storage.clear("user");
+      Storage.clear("token");
       navigate("/login");
     }
   };

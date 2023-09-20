@@ -26,6 +26,11 @@ const Navigaton = () => {
                     Register
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/createmovie">
+                    Create Movie
+                  </Link>
+                </li>
               </>
             ) : (
               <li className="nav-item">
